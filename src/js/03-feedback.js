@@ -33,7 +33,7 @@ function saveMessage(evt) {
   console.log('form.elements.message', form.elements.message);
   localStorage.removeItem(CURRENT_FORM_STATE);
   formState = {};
-  updateOutput();
+  //updateOutput();
   form.reset();
 }
 
