@@ -9,15 +9,13 @@ const form = document.querySelector('.feedback-form');
 let formState = JSON.parse(localStorage.getItem(CURRENT_FORM_STATE)) || {};
 
 form.addEventListener('input', throttle(onTextInput, 500));
+updateOutput();
+form.addEventListener('submit', saveMessage);
 
 function onTextInput(evt) {
   formState[evt.target.name] = evt.target.value;
   localStorage.setItem(CURRENT_FORM_STATE, JSON.stringify(formState));
 }
-
-//form.addEventListener('input', throttle(updateOutput, 500));
-updateOutput();
-form.addEventListener('submit', saveMessage);
 
 function saveMessage(evt) {
   evt.preventDefault();
@@ -33,8 +31,10 @@ function saveMessage(evt) {
 }
 
 function updateOutput() {
-  form.elements.email.value =
-    JSON.parse(localStorage.getItem(CURRENT_FORM_STATE)).email || '';
-  form.elements.message.value =
-    JSON.parse(localStorage.getItem(CURRENT_FORM_STATE)).message || '';
+  const data = JSON.parse(localStorage.getItem(CURRENT_FORM_STATE));
+  if (data) {
+    form.elements.email.value = data.email || '';
+    form.elements.message.value = data.message || '';
+  }
+  return;
 }
